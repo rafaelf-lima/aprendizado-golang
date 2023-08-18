@@ -1,3 +1,5 @@
+// Tentativa de fazer a AP1 de Arq. de Computadores usando a linguagem Go.
+
 package main
 
 import (
@@ -7,7 +9,7 @@ import (
 	"strings"
 )
 
-var y, x string
+var y, x string = "", ""
 
 func init(){
 	fmt.Println("Seja bem-vindo!")
@@ -44,6 +46,7 @@ func complemento1(input string){
 	
 	}
 	exibeResultado(resultado)
+	fmt.Println(x)
 }
 
 func adicao(input string) {
@@ -59,8 +62,27 @@ func adicaoImediata(input string) {
 	
 }
 
+func emprestar(minuendo *[]byte, index int) {
+	for index >= 0 && (*minuendo)[index] == '0' {
+		(*minuendo)[index] = '1'
+		index--
+	}
+	if index >= 0 {
+		(*minuendo)[index] = '0'
+	}
+}
+
 func subtracao(input string) {
-	fmt.Println("Executing subtracao")
+	primeiraParte := []byte(input[3:7])
+	segundaParte := []byte(input[7:11]) 
+
+	if string(segundaParte) > string(primeiraParte) {
+		primeiraParte, segundaParte = segundaParte, primeiraParte
+		emprestar(&primeiraParte, len(primeiraParte)-1)
+	}
+
+	resultado := binarioDecimal(string(primeiraParte)) - binarioDecimal(string(segundaParte))
+	exibeResultado(decimalBinario(resultado))
 }
 
 func subtracaoImediata(input string) {
@@ -122,24 +144,24 @@ func verificaBinarios(input string) {
 
 func main(){
 		var inicio int
-		var input string
-		for { 
 			fmt.Println("Podemos começar? Digite 0 para sair e 1 para iniciar")
 			fmt.Scanln(&inicio)
-		if inicio == 1 {
-			fmt.Println("Vamos começar! Digite 11 dígitos binários!")
-			fmt.Scanln(&input)
-			if len(input) == 11 {
-				verificaBinarios(input)
-			} else {
-				fmt.Println("Parece que não funcionou. Tente novamente!")
+			switch inicio {
+			case 0:
+				fmt.Println("Até logo!")
+				os.Exit(0)
+			case 1:
+				for {
+				var input string
+				fmt.Println("Vamos começar! Digite 11 dígitos binários!")
+				fmt.Scanln(&input)
+				if len(input) == 11 {
+					verificaBinarios(input)
+				} else {
+					fmt.Println("Parece que não funcionou. Tente novamente!")
+				}
 			}
-		} else if inicio == 0 {
-			os.Exit(1)
-		} else{ 
-			fmt.Println("Aparentemente você recusou o inicío. Aperte qualquer botão para começar!")
-			fmt.Scanln(&inicio)
+			default:
+				fmt.Println("Opção inválida. Por favor, digite 0 ou 1.")
+			}
 		}
-	}
-
-	}
