@@ -1,7 +1,26 @@
+/*
+
+You probably don't need a framework. `net/http` covers most of what you need.
+
+Once you have a concrete problem the standard library can't solve, **then** start looking for the simplest solution you can find for your specific problem.
+
+Estudar sobre o net/http e depois pesquisar web frameworks
+
+
+
+
+
+
+
+
+*/
+
+
 package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -129,7 +148,7 @@ func main(){
 		}
 	}
 	*/
-
+	/*
 	sli1 := make([]string, 6)
 	sli1[0] = "Society"
 	sli1[1] = "of"
@@ -157,7 +176,7 @@ func main(){
 
 
 }
-
+// Go permite retrocompatibilidade
 
 func getSum2(nums ...int) int {
 	sum := 0
@@ -174,4 +193,59 @@ func getArraySum(arr []int) int{
 		sum += val
 	}
 	return sum
+
+	*/ 
+	// File IO
+	/*
+	f, err := os.Create("data.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	iPrimeArr := []int{2,3,5,7,11}
+	var sPrimeArr []string
+	for _, i := range iPrimeArr{
+		sPrimeArr = append(sPrimeArr, strconv.Itoa(i))
+	}
+	for _, num := range sPrimeArr{
+		_, err := f.WriteString(num + "\n")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	f, err = os.Open("data.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	scan1 := bufio.NewScanner(f)
+	for scan1.Scan(){
+		p1("Prime: ", scan1.Text())
+	}
+	if err := scan1.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	_, err := os.Stat("data.txt")
+	if errors.Is(err, os.ErrNotExist){
+		p1("File unfound")
+	}
+	*/
+	getSumGen(5,4)
+	getSumGen(5.0,4.0)
+}
+
+// you cannot define fields in interfaces
+// Go interfaces don't allow fields to be declared because conceptually they deal with behavior not data. Fields are data.
+
+type MyConstraint interface {
+	int | float64
+}
+
+// go mod init nomedoprojeto (criação de um "package.json, no caso o go.mod")
+
+
+func getSumGen[T MyConstraint](x T, y T) T{
+	return x + y
 }

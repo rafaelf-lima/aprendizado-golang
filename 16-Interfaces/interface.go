@@ -1,5 +1,9 @@
 package main
 
+// If quacks, moves, swims like a duck then it should be a duck.
+// O tipo da infterface apenas precisa do comportamento apontado
+// Não liga de onde vem esse comportamento
+
 import (
 	"fmt"
 	"math"

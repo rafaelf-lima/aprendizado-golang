@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var y, x string = "", ""
+var y, x string
 
 func init(){
 	fmt.Println("Seja bem-vindo!")
@@ -36,7 +36,7 @@ func decimalBinario(input int) string {
 
 func complemento1(input string){
 	operando := input[3:11]
-	var resultado string = " "
+	var resultado string = ""
 	for i := 0; i < len(operando); i++{
 		if operando[i] == '0' {
 			resultado += "1"
@@ -45,21 +45,23 @@ func complemento1(input string){
 		}
 	
 	}
-	exibeResultado(resultado)
-	fmt.Println(x)
+	x = resultado
+	// fmt.Println(x)
 }
 
 func adicao(input string) {
-	var resultado int
 	primeiraParte := input[3:7]
 	segundaParte := input[7:11]
-	resultado = binarioDecimal(primeiraParte) + binarioDecimal(segundaParte)
-	exibeResultado(decimalBinario(resultado))
+	resultado := binarioDecimal(primeiraParte) + binarioDecimal(segundaParte)
+	x = decimalBinario(resultado)
 	
 }
 
 func adicaoImediata(input string) {
-	
+	operandoInput := input[3:11]
+	fmt.Println(x)
+	resultado := binarioDecimal(operandoInput) + binarioDecimal(x)
+	fmt.Println(resultado)
 }
 
 func emprestar(minuendo *[]byte, index int) {
@@ -82,25 +84,25 @@ func subtracao(input string) {
 	}
 
 	resultado := binarioDecimal(string(primeiraParte)) - binarioDecimal(string(segundaParte))
-	exibeResultado(decimalBinario(resultado))
+	x = decimalBinario(resultado)
 }
 
 func subtracaoImediata(input string) {
 	fmt.Println("Executing subtracaoImediata")
 }
 
-func leitura() {
-	operandoX := x[3:11]
-	if strings.ContainsAny(operandoX, "0"){
-		fmt.Println(x)
+func leitura(input string) {
+	operandoInput := input[3:11]
+	if operandoInput == "00000000" {
+		exibeResultado(x)
 	} else {
-		fmt.Println(y)
+		exibeResultado(y)
 	}
 }
 
 func armazena(input string) {
-	x = input
-
+	operandoInput := input[3:11]
+	x = operandoInput
 }
 
 func transfere() {
@@ -115,18 +117,25 @@ func verificaBinarios(input string) {
 			defineOp := input[:3]
 			switch defineOp {
 			case "000":
+				fmt.Println("Operação: Complemento de 1")
 				complemento1(input)
 			case "001":
+				fmt.Println("Operação: Adição")
 				adicao(input)
 			case "010":
+				fmt.Println("Operação: Adição imediata")
 				adicaoImediata(input)
 			case "011":
+				fmt.Println("Operação: Subtração")
 				subtracao(input)
 			case "100":
+				fmt.Println("Operação: Subtração imediata")
 				subtracaoImediata(input)
 			case "101":
-				leitura()
+				fmt.Println("Operação: Leitura")
+				leitura(input)
 			case "110":
+				fmt.Println("Operação: Armazena")
 				armazena(input)
 			case "111":
 				transfere()
